@@ -1,3 +1,14 @@
+Fork of https://github.com/mkristian/jruby-maven-plugins
+
+Change "jrubyc" command to "jrubyc --javac" to generate JRuby class with Java interfaces.
+
+check https://github.com/rakk/jrubyandjavainterface for more details.
+
+
+
+
+
+
 h1. maven plugins for jruby
 
 h2. my problem with maven vs. gem

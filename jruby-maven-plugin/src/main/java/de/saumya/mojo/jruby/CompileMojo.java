@@ -7,6 +7,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 
 import de.saumya.mojo.ruby.script.Script;
 import de.saumya.mojo.ruby.script.ScriptException;
+import org.apache.maven.artifact.Artifact;
 
 /**
  * executes the compiles ruby classes to java bytecode (jrubyc).
@@ -77,8 +78,15 @@ public class CompileMojo extends AbstractJRubyMojo {
         if (this.generateJava) {
             script.addArg("--java").addArg("-t",
                     fixPathSeparator(this.generatedJavaDirectory));
-        } else {
-            script.addArg("-t", fixPathSeparator(this.outputDirectory));
+        } else {            
+            StringBuilder classpath = new StringBuilder("");
+            for (final Artifact artifact : this.project.getArtifacts()){
+                classpath.append(artifact.getFile()).append(":");
+            }
+            classpath.append(".");
+            
+            script.addArg("--javac").addArg("-c", classpath.toString())
+                    .addArg("-t", fixPathSeparator(this.outputDirectory));
         }
         script.addArg(this.rubyDirectory);
         script.execute();
